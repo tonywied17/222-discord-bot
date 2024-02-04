@@ -48,6 +48,42 @@ To get started with 222 Discord Bot, follow these simple steps:
     node slash-register.js
     ```
 
+### Optional: Running the Bot Continuously with Forever
+
+For a more resilient deployment, you can use `forever`, a CLI tool to ensure that your bot runs continuously. This is particularly useful for production environments.
+
+1. **Install Forever Globally**
+
+    ```bash
+    npm install forever -g
+    ```
+
+2. **Start Your Bot with Forever**
+
+    To keep your bot running continuously, navigate to your bot's directory and start it with `forever`:
+
+    ```bash
+    forever start -a --uid "222Bot" index.js
+    ```
+
+    This command starts the bot and assigns it a unique identifier (`uid`) of "222Bot", making it easy to manage later.
+
+3. **Managing Your Bot with Forever**
+
+    - **To list all processes:**
+
+        ```bash
+        forever list
+        ```
+
+    - **To stop your bot:**
+
+        ```bash
+        forever stop 222Bot
+        ```
+
+For more details on using `forever`, refer to its [documentation](https://github.com/foreversd/forever).
+
 ## Supported Slash Commands
 
 222 Discord Bot supports a variety of slash commands to improve the user experience on your server. Here's what you can do:
