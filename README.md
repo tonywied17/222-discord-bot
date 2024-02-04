@@ -122,7 +122,7 @@ Your contributions are welcome! If you have suggestions for new features or impr
 
 ## License
 
-This project is licensed under [insert your license here], see the LICENSE file for details.
+This project is licensed under GPL-3.0 license, see the LICENSE file for details.
 
 ## Acknowledgements
 
