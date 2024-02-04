@@ -1,3 +1,15 @@
+/*
+ * File: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot\index.js
+ * Project: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot
+ * Created Date: Saturday February 3rd 2024
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Sat February 3rd 2024 11:51:27 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2024 MolexWorks / Tone Web Design
+ */
+
 const { Client, Collection, GatewayIntentBits, REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -10,6 +22,9 @@ require('dotenv').config();
 const token = process.env.TOKEN;
 const clientId = process.env.CLIENT_ID;
 
+/**
+ * Discord Client Intents
+ */
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -20,6 +35,13 @@ const client = new Client({
   ]
 });
 
+/**
+ * Client Commands
+ * @type {Collection<string, any>}
+ * @description The client commands are handled in the commands directory.
+ * The command files are named after the command they handle and are in the format of:
+ * command-name.js
+ */
 client.commands = new Collection();
 const commands = [];
 const commandsPath = path.join(__dirname, 'commands');
@@ -39,6 +61,13 @@ for (const folder of commandFolders) {
   }
 }
 
+/**
+ * Client Events
+ * @type {Collection<string, any>}
+ * @description The client events are handled in the handlers/events/discord directory.
+ * The event files are named after the event they handle and are in the format of:
+ * event-name.js
+ */
 const eventsPath = path.join(__dirname, 'handlers/events/discord');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
@@ -51,6 +80,10 @@ for (const file of eventFiles) {
 	}
 }
 
+/**
+ * Register Application Commands
+ * @description This will register the application commands for the bot.
+ */
 const rest = new REST().setToken(token);
 (async () => {
   try {
