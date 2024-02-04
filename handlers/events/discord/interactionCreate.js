@@ -14,6 +14,7 @@ module.exports = {
 
 		try {
 			await command.execute(interaction);
+			await maybeSendRandomImage(interaction);
 		} catch (error) {
 			console.error(error);
 			if (interaction.replied || interaction.deferred) {
@@ -23,4 +24,22 @@ module.exports = {
 			}
 		}
 	},
+	
 };
+
+async function maybeSendRandomImage(interaction) {
+	if (Math.random() < 0.22) {
+	  try {
+		const response = await fetch('https://api.waifu.pics/sfw/waifu');
+		if (!response.ok) {
+		  throw new Error('Failed to fetch from waifu.pics');
+		}
+		const data = await response.json();
+		const randomImage = data.url;
+		await interaction.followUp({ content: '# You won the 22% chance to get a waifu pic!', files: [randomImage] });
+	  } catch (error) {
+		console.error('Failed to fetch NSFW waifu image:', error);
+		await interaction.followUp({ content: 'Oops! Something went wrong while trying to fetch an image.', ephemeral: true });
+	  }
+	}
+  }

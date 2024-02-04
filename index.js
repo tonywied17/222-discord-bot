@@ -7,7 +7,6 @@ import('node-fetch').then(module => {
 });
 
 require('dotenv').config();
-
 const token = process.env.TOKEN;
 const clientId = process.env.CLIENT_ID;
 
@@ -25,7 +24,6 @@ client.commands = new Collection();
 const commands = [];
 const commandsPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(commandsPath);
-
 for (const folder of commandFolders) {
   const folderPath = path.join(commandsPath, folder);
   const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
@@ -41,21 +39,16 @@ for (const folder of commandFolders) {
   }
 }
 
-async function maybeSendRandomImage(interaction) {
-  if (Math.random() < 0.22) {
-    try {
-      const response = await fetch('https://api.waifu.pics/sfw/waifu');
-      if (!response.ok) {
-        throw new Error('Failed to fetch from waifu.pics');
-      }
-      const data = await response.json();
-      const randomImage = data.url;
-      await interaction.followUp({ content: '# You won the 22% chance to get a waifu pic!', files: [randomImage] });
-    } catch (error) {
-      console.error('Failed to fetch NSFW waifu image:', error);
-      await interaction.followUp({ content: 'Oops! Something went wrong while trying to fetch an image.', ephemeral: true });
-    }
-  }
+const eventsPath = path.join(__dirname, 'handlers/events/discord');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
 }
 
 const rest = new REST().setToken(token);
@@ -71,21 +64,5 @@ const rest = new REST().setToken(token);
     console.error(error);
   }
 })();
-
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isCommand()) return;
-
-  const command = client.commands.get(interaction.commandName);
-
-  if (!command) return;
-
-  try {
-    await command.execute(interaction);
-    await maybeSendRandomImage(interaction);
-  } catch (error) {
-    console.error(error);
-    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-  }
-});
 
 client.login(token);
