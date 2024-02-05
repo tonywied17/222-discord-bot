@@ -4,19 +4,32 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:backend": "node backend/server.js",
+    "dev:frontend": "next dev -p 3000 ./frontend",
+    "build:frontend": "next build ./frontend",
+    "start:frontend": "next start -p 3000 ./frontend",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run start:backend\"",
+    "build": "npm run build:frontend"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@discordjs/voice": "^0.16.1",
+    "cors": "^2.8.5",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "express-session": "^1.18.0",
     "ffmpeg-static": "^5.2.0",
     "libsodium-wrappers": "^0.7.13",
+    "mongoose": "^8.1.1",
     "node-fetch": "^3.3.2",
+    "passport": "^0.7.0",
+    "passport-discord": "^0.1.4",
+    "path": "^0.12.7",
     "prism-media": "^1.3.5",
+    "sqlite3": "^5.1.7",
     "youtube-sr": "^4.3.10",
     "ytdl-core": "^4.11.5"
   }

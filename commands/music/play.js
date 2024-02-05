@@ -4,7 +4,7 @@
  * Created Date: Saturday February 3rd 2024
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat February 3rd 2024 11:58:22 
+ * Last Modified: Mon February 5th 2024 12:30:00 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2024 MolexWorks / Tone Web Design
@@ -134,7 +134,7 @@ async function playSong(interaction, voiceChannel, song) {
         } else {
             queues.delete(interaction.guildId);
             global.players.delete(interaction.guildId);
-            // connection.destroy();
+            connection.destroy();
         }
     });
 

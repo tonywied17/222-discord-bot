@@ -1,0 +1,17 @@
+.dashboard {
+    text-align: center;
+  }
+  
+  .profile-info {
+    margin: 20px 0;
+  }
+  
+  .guilds-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .guild {
+    margin: 10px 0;
+  }
+  
