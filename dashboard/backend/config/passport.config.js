@@ -3,16 +3,17 @@ const DiscordStrategy = require("passport-discord").Strategy;
 const db = require("./sqlite.db");
 
 passport.use(
-  new DiscordStrategy({
+  new DiscordStrategy(
+    {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: process.env.CALLBACK_URL,
       scope: ["identify", "email", "guilds"],
     },
     function (accessToken, refreshToken, profile, done) {
-      const avatarURL = profile.avatar ?
-        `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` :
-        null;
+      const avatarURL = profile.avatar
+        ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+        : null;
       profile.avatarURL = avatarURL;
 
       db.get(
@@ -78,9 +79,7 @@ async function processSingleGuild(guild, userId) {
         let guildDbId;
         if (!row) {
           try {
-            const {
-              lastID
-            } = await dbRunAsync(
+            const { lastID } = await dbRunAsync(
               `INSERT INTO guilds (guildId, guildName, icon, permissions) VALUES (?, ?, ?, ?)`,
               [guild.id, guild.name, guild.icon, guild.permissions]
             );

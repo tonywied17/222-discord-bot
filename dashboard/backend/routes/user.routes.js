@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/sqlite.db');
 
-// Middleware to check if the user is authenticated
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
