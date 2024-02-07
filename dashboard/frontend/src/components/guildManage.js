@@ -14,50 +14,65 @@ function GuildManage() {
   const [guildInfo, setGuildInfo] = useState(location.state || null);
   const [guildSettings, setGuildSettings] = useState(null);
   const [userHasAdminRights, setUserHasAdminRights] = useState(false);
+  const [hasFetchedGuildSettings, setHasFetchedGuildSettings] = useState(false);
 
   useEffect(() => {
+    checkAuthentication();
+  }, []);
+
+  const checkAuthentication = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/checkAuth`, { withCredentials: true })
       .then(authResponse => {
         if (!authResponse.data.isAuthenticated) {
           navigate('/');
         } else {
-          axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/info`, { withCredentials: true })
-            .then(userInfoResponse => {
-              const allGuilds = [...userInfoResponse.data.botAdminGuilds, ...userInfoResponse.data.guilds];
-              const currentGuild = allGuilds.find(guild => guild.guildId === guildId);
-
-              if (currentGuild) {
-                if (userInfoResponse.data.botAdminGuilds.some(guild => guild.guildId === guildId)) {
-                  setGuildInfo({
-                    guildName: currentGuild.guildName,
-                    iconUrl: currentGuild.iconUrl,
-                  });
-                  setUserHasAdminRights(true);
-                } else {
-                  console.error("User does not have admin rights for this guild.");
-                  navigate('/');
-                }
-              } else {
-                console.error("Guild not found among user's guilds.");
-                navigate('/');
-              }
-            })
-            .catch(error => console.error("Error fetching user info for guilds:", error));
+          fetchUserInfo();
         }
       })
       .catch(error => {
         console.error("Authentication check failed:", error);
         navigate('/');
       });
+  };
 
-    if (guildInfo && userHasAdminRights) {
-      axios.get(`${process.env.REACT_APP_BACKEND_URL}/guilds/${guildId}/settings`, { withCredentials: true })
-        .then(response => {
-          setGuildSettings(response.data);
-        })
-        .catch(error => console.error("Error fetching guild settings:", error));
-    }
-  }, [guildId, guildInfo, navigate, userHasAdminRights]);
+  const fetchUserInfo = () => {
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/info`, { withCredentials: true })
+      .then(userInfoResponse => {
+        const allGuilds = [...userInfoResponse.data.botAdminGuilds, ...userInfoResponse.data.guilds];
+        const currentGuild = allGuilds.find(guild => guild.guildId === guildId);
+        if (!currentGuild) {
+          console.error("Guild not found among user's guilds.");
+          navigate('/');
+          return;
+        }
+  
+        const isAdmin = userInfoResponse.data.botAdminGuilds.some(guild => guild.guildId === guildId);
+        if (!isAdmin) {
+          console.error("User does not have admin rights for this guild.");
+          navigate('/');
+          return;
+        }
+  
+        setGuildInfo({
+          guildName: currentGuild.guildName,
+          iconUrl: currentGuild.iconUrl,
+        });
+        setUserHasAdminRights(true);
+        if (!hasFetchedGuildSettings) {
+          fetchGuildSettings();
+        }
+      })
+      .catch(error => console.error("Error fetching user info for guilds:", error));
+  };
+
+  const fetchGuildSettings = () => {
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/guilds/${guildId}/settings`, { withCredentials: true })
+      .then(response => {
+        setGuildSettings(response.data);
+        setHasFetchedGuildSettings(true);
+      })
+      .catch(error => console.error("Error fetching guild settings:", error));
+  };
 
   return (
     <div className="p-4">
@@ -86,9 +101,7 @@ function GuildManage() {
                 <div key={settingKey} className="mb-4">
                   <Typography variant="h6">{settingKey}</Typography>
                   <Typography variant="paragraph">
-                    {typeof settingValue === 'boolean'
-                      ? settingValue ? 'Enabled' : 'Disabled'
-                      : settingValue}
+                    {settingValue}
                   </Typography>
                 </div>
               ))}

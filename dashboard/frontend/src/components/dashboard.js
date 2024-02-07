@@ -7,34 +7,37 @@ import {
   CardBody,
   Typography,
 } from "@material-tailwind/react";
+import { FiArrowRight } from "react-icons/fi";
 
 function Dashboard() {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/checkAuth`, { withCredentials: true })
-      .then(response => {
+    const checkAuthentication = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/checkAuth`, { withCredentials: true });
         if (response.data.isAuthenticated) {
           fetchUserInfo();
         } else {
           navigate('/');
         }
-      })
-      .catch(error => {
+      } catch (error) {
         console.error("Authentication check failed:", error);
         navigate('/');
-      });
+      }
+    };
+
+    checkAuthentication();
   }, [navigate]);
 
-  const fetchUserInfo = () => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/info`, { withCredentials: true })
-      .then(response => {
-        setUserInfo(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching user info:", error);
-      });
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/info`, { withCredentials: true });
+      setUserInfo(response.data);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
   };
 
   const botAdminGuildIds = userInfo?.botAdminGuilds?.map(guild => guild.guildId) || [];
@@ -86,7 +89,7 @@ function Dashboard() {
                           state: { guildName: guild.guildName, iconUrl: guild.iconUrl },
                         })}
                       >
-                        Manage
+                        Manage <FiArrowRight className='inline-block mb-1' />
                       </Button>
                   </div>
                 ))}

@@ -1,6 +1,6 @@
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
-const dbPath = path.join(__dirname, '../database/_discordOAuth2.db');
+const dbPath = path.join(__dirname, '../database/_discord.db');
 console.log(dbPath);
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
