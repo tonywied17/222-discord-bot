@@ -51,14 +51,14 @@ function Dashboard() {
     <div className="p-4">
       {userInfo ? (
         <>
-          <Card className="mb-8 bg-[#00000044] text-white">
+          <Card className="mb-8 bg-[#00000044] text-white slide-left">
             <CardBody className="flex items-center space-x-4">
               <img src={userInfo.avatar} alt="Avatar" className="w-12 h-12 rounded-full" />
               <div>
-                <Typography variant="h5" color="blueGray">
+                <Typography variant="h5">
                   {userInfo.username}#{userInfo.discriminator}
                 </Typography>
-                <Typography variant="paragraph" color="blueGray">
+                <Typography variant="paragraph">
                   {userInfo.email}
                 </Typography>
               </div>
@@ -66,35 +66,43 @@ function Dashboard() {
           </Card>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className='bg-[#00000044] text-white'>
+            <Card className='bg-[#00000044] text-white scale-center'>
               <CardBody>
-                <Typography variant="h6" color="blueGray">
+                <Typography variant="h6">
                   Admin Guilds with 222bot
                 </Typography>
                 {filterBotAdminGuilds().map((guild, index) => (
                   <div key={index} className="flex justify-between items-center mt-4">
                     <div className="flex items-center">
                       <img src={guild.iconUrl} alt="Guild Icon" className="w-10 h-10 rounded-full mr-4" />
-                      <Typography color="blueGray">
+                      <Typography>
                         {guild.guildName}
                       </Typography>
                     </div>
-                    <Button color="lightBlue" size="sm" className="ml-auto">Manage</Button>
+                      <Button
+                        size="sm"
+                        className="ml-auto"
+                        onClick={() => navigate(`/manage/${guild.guildId}`, {
+                          state: { guildName: guild.guildName, iconUrl: guild.iconUrl },
+                        })}
+                      >
+                        Manage
+                      </Button>
                   </div>
                 ))}
               </CardBody>
             </Card>
 
-            <Card className='bg-[#00000044] text-white'>
+            <Card className='bg-[#00000044] text-white scale-center'>
               <CardBody>
-                <Typography variant="h6" color="blueGray">
+                <Typography variant="h6">
                   Your Admin Guilds
                 </Typography>
                 {filterAdminGuilds().map((guild, index) => (
                   <div key={index} className="flex justify-between items-center mt-4">
                     <div className="flex items-center">
                       <img src={guild.iconUrl} alt="Guild Icon" className="w-10 h-10 rounded-full mr-4" />
-                      <Typography color="blueGray">
+                      <Typography>
                         {guild.guildName}
                       </Typography>
                     </div>
@@ -106,7 +114,7 @@ function Dashboard() {
           </div>
         </>
       ) : (
-        <Typography color="blueGray" className="text-center">
+        <Typography className="text-center">
           Please log in.
         </Typography>
       )}

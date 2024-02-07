@@ -7,14 +7,16 @@ import {
   CardFooter,
   Typography,
 } from "@material-tailwind/react";
+import  { FiMusic, FiArrowRight } from "react-icons/fi";
+import { FaCodeBranch, FaCloud } from "react-icons/fa";
 
 const Main = () => {
   return (
-    <div className="flex flex-col md:flex-row gap-5 items-center justify-center flex-1 text-center">
-      <Card className="mt-6 w-96 bg-[#00000044] text-white">
+    <div className="flex flex-col md:flex-row gap-5 items-center justify-center flex-1 text-center p-4">
+      <Card className="mt-6 w-full bg-[#00000044] text-white  animate-[pulse_7.5s_ease-in-out_infinite]">
         <CardBody>
-          {/* Icon or SVG here */}
-          <Typography variant="h5" color="blue-gray-100" className="mb-2">
+        <FiMusic className="text-xl mb-4" />
+          <Typography variant="h5" className="mb-2">
             Music-Enabled Commands
           </Typography>
           <Typography>
@@ -27,15 +29,15 @@ const Main = () => {
             variant="gradient"
             className="flex items-center gap-2"
           >
-            Learn More {/* Icon or SVG for arrow */}
+            Learn More <FiArrowRight />
           </Button>
         </CardFooter>
       </Card>
 
-      <Card className="mt-6 w-96 bg-[#00000044] text-white">
+      <Card className="mt-6 w-full bg-[#00000044] text-white animate-[pulse_7.7s_ease-in-out_infinite]">
         <CardBody>
-          {/* Icon or SVG here */}
-          <Typography variant="h5" color="blue-gray-100" className="mb-2">
+          <FaCodeBranch className="text-xl mb-4" />
+          <Typography variant="h5" className="mb-2">
             Open-Source
           </Typography>
           <Typography>
@@ -44,15 +46,15 @@ const Main = () => {
         </CardBody>
         <CardFooter className="pt-0">
           <Button size="sm" variant="gradient" className="flex items-center gap-2">
-            Learn More {/* Icon or SVG for arrow */}
+            Learn More <FiArrowRight />
           </Button>
         </CardFooter>
       </Card>
 
-      <Card className="mt-6 w-96 bg-[#00000044] text-white">
+      <Card className="mt-6 w-full bg-[#00000044] text-white animate-[pulse_7.9s_ease-in-out_infinite]">
         <CardBody>
-          {/* Icon or SVG here */}
-          <Typography variant="h5" color="blue-gray-100" className="mb-2">
+          <FaCloud className="text-xl mb-4" />
+          <Typography variant="h5" className="mb-2">
             Self Hostable
           </Typography>
           <Typography>
@@ -61,7 +63,7 @@ const Main = () => {
         </CardBody>
         <CardFooter className="pt-0">
           <Button size="sm" variant="gradient" className="flex items-center gap-2">
-            Learn More {/* Icon or SVG for arrow */}
+            Learn More <FiArrowRight />
           </Button>
         </CardFooter>
       </Card>
