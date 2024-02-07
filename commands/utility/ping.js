@@ -4,7 +4,7 @@
  * Created Date: Saturday February 3rd 2024
  * Author: Tony Wiedman
  * -----
- * Last Modified: Sat February 3rd 2024 11:54:26 
+ * Last Modified: Tue February 6th 2024 7:45:21 
  * Modified By: Tony Wiedman
  * -----
  * Copyright (c) 2024 MolexWorks / Tone Web Design
@@ -48,18 +48,6 @@ module.exports = {
 			.setFooter({
 				text: `Roundtrip Time: ${Date.now() - startTime}ms`
 			})
-
-		// Embed that uses the object literal syntax
-		// const embed2 = {
-		// 	color: parseInt("425678", 16),
-		// 	title: "Pong!",
-		// 	fields: [
-		// 		{ name: "Bot Latency", value: botLatency + "ms" },
-		// 		{ name: "API Latency", value: apiLatency + "ms" }
-		// 	],
-		// 	timestamp: new Date(),
-		// 	footer: { text: `Roundtrip Time: ${Date.now() - startTime}ms` }
-		// };
 
 		await interaction.reply({
 			embeds: [embed1]

@@ -30,10 +30,19 @@ const initDb = () => {
 
     db.run(`CREATE TABLE IF NOT EXISTS user_guilds (
       userId INTEGER,
-      guildId INTEGER,
+      guildId TEXT UNIQUE,
+      permissions INTEGER,
       FOREIGN KEY (userId) REFERENCES user(id),
       FOREIGN KEY (guildId) REFERENCES guilds(id),
       UNIQUE(userId, guildId)
+    )`);
+
+    db.run(`CREATE TABLE IF NOT EXISTS guild_settings (
+      guildId TEXT,
+      settingKey TEXT,
+      settingValue TEXT,
+      FOREIGN KEY (guildId) REFERENCES guilds(id),
+      UNIQUE(guildId, settingKey)
     )`);
   });
 };

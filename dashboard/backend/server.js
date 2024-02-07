@@ -7,10 +7,12 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const userRoutes = require('./routes/user.routes');
+const botRoutes = require('./routes/bot.routes');
 
 require('./config/passport.config');
 
 const app = express();
+app.use(express.json());
 const PORT = process.env.PORT || 3001;
 
 app.use(cors({
@@ -35,6 +37,7 @@ app.use(passport.session());
 app.use(authRoutes);
 app.use(dashboardRoutes);
 app.use(userRoutes);
+app.use(botRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');

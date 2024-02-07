@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {
+  Button,
+  Card,
+  CardBody,
+  Typography,
+} from "@material-tailwind/react";
 
 function Dashboard() {
   const [userInfo, setUserInfo] = useState(null);
@@ -31,39 +37,78 @@ function Dashboard() {
       });
   };
 
+  const botAdminGuildIds = userInfo?.botAdminGuilds?.map(guild => guild.guildId) || [];
+
   const filterAdminGuilds = () => {
-    if (userInfo && userInfo.guilds) {
-      return userInfo.guilds.filter(guild => guild.permissions === 2147483647);
-    }
-    return [];
+    return userInfo?.guilds.filter(guild => 
+      guild.permissions === 2147483647 && !botAdminGuildIds.includes(guild.guildId)
+    ) || [];
   };
 
+  const filterBotAdminGuilds = () => userInfo?.botAdminGuilds || [];
+
   return (
-    <div className="dashboard">
+    <div className="p-4">
       {userInfo ? (
         <>
-          <div className="profile-info">
-            <img src={userInfo.avatar} alt={`${userInfo.username}'s Avatar`} style={{ width: 100, borderRadius: "50%" }} />
-            <h2>Welcome {userInfo.username}#{userInfo.discriminator}!</h2>
-          </div>
-          <div>
-            <h3>Your Admin Guilds:</h3>
-            <ul className="guilds-list">
-              {filterAdminGuilds().map(guild => (
-                <li key={guild.id} className="guild">
-                  {guild.iconUrl ? (
-                    <img src={guild.iconUrl} alt={`${guild.guildName} Icon`} style={{ width: 50, borderRadius: "50%" }} />
-                  ) : (
-                    <div>No Icon</div>
-                  )}
-                  {guild.guildName}
-                </li>
-              ))}
-            </ul>
+          <Card className="mb-8 bg-[#00000044] text-white">
+            <CardBody className="flex items-center space-x-4">
+              <img src={userInfo.avatar} alt="Avatar" className="w-12 h-12 rounded-full" />
+              <div>
+                <Typography variant="h5" color="blueGray">
+                  {userInfo.username}#{userInfo.discriminator}
+                </Typography>
+                <Typography variant="paragraph" color="blueGray">
+                  {userInfo.email}
+                </Typography>
+              </div>
+            </CardBody>
+          </Card>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className='bg-[#00000044] text-white'>
+              <CardBody>
+                <Typography variant="h6" color="blueGray">
+                  Admin Guilds with 222bot
+                </Typography>
+                {filterBotAdminGuilds().map((guild, index) => (
+                  <div key={index} className="flex justify-between items-center mt-4">
+                    <div className="flex items-center">
+                      <img src={guild.iconUrl} alt="Guild Icon" className="w-10 h-10 rounded-full mr-4" />
+                      <Typography color="blueGray">
+                        {guild.guildName}
+                      </Typography>
+                    </div>
+                    <Button color="lightBlue" size="sm" className="ml-auto">Manage</Button>
+                  </div>
+                ))}
+              </CardBody>
+            </Card>
+
+            <Card className='bg-[#00000044] text-white'>
+              <CardBody>
+                <Typography variant="h6" color="blueGray">
+                  Your Admin Guilds
+                </Typography>
+                {filterAdminGuilds().map((guild, index) => (
+                  <div key={index} className="flex justify-between items-center mt-4">
+                    <div className="flex items-center">
+                      <img src={guild.iconUrl} alt="Guild Icon" className="w-10 h-10 rounded-full mr-4" />
+                      <Typography color="blueGray">
+                        {guild.guildName}
+                      </Typography>
+                    </div>
+                    <Button color="green" size="sm" className="ml-auto">Invite</Button>
+                  </div>
+                ))}
+              </CardBody>
+            </Card>
           </div>
         </>
       ) : (
-        <div>Please log in.</div>
+        <Typography color="blueGray" className="text-center">
+          Please log in.
+        </Typography>
       )}
     </div>
   );
