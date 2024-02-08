@@ -1,3 +1,15 @@
+/*
+ * File: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot\dashboard\frontend\src\App.js
+ * Project: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot\dashboard\frontend
+ * Created Date: Monday February 5th 2024
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Thu February 8th 2024 4:06:13 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2024 MolexWorks / Tone Web Design
+ */
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,6 +22,11 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  /**
+   * Check if the user is authenticated
+   * If the user is authenticated, redirect to the dashboard
+   * If the user is not authenticated, redirect to the homepage
+   */
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/checkAuth`, { withCredentials: true })
       .then(response => {
@@ -22,6 +39,11 @@ function App() {
       .catch(error => console.error("Authentication check failed:", error));
   }, [navigate]);
 
+  /**
+   * Logout the user
+   * Clear the session and redirect to the homepage
+   * @returns {void}
+   */
   const handleLogout = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/logout`, { withCredentials: true })
       .then(() => {

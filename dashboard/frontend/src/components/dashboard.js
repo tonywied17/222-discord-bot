@@ -1,3 +1,15 @@
+/*
+ * File: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot\dashboard\frontend\src\components\dashboard.js
+ * Project: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot\dashboard\frontend
+ * Created Date: Monday February 5th 2024
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Thu February 8th 2024 4:08:16 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2024 MolexWorks / Tone Web Design
+ */
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +21,12 @@ import {
 } from "@material-tailwind/react";
 import { FiArrowRight } from "react-icons/fi";
 
+/**
+ * @name Dashboard
+ * This component is used to display the user's dashboard
+ * It fetches the user's information and displays it
+ * If the user is not authenticated, it redirects to the homepage
+ */
 function Dashboard() {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
@@ -27,10 +45,13 @@ function Dashboard() {
         navigate('/');
       }
     };
-
     checkAuthentication();
   }, [navigate]);
 
+  /**
+   * Fetch the user's information
+   * @returns {void}
+   */
   const fetchUserInfo = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/info`, { withCredentials: true });
@@ -39,15 +60,12 @@ function Dashboard() {
       console.error("Error fetching user info:", error);
     }
   };
-
   const botAdminGuildIds = userInfo?.botAdminGuilds?.map(guild => guild.guildId) || [];
-
   const filterAdminGuilds = () => {
     return userInfo?.guilds.filter(guild => 
       guild.permissions === 2147483647 && !botAdminGuildIds.includes(guild.guildId)
     ) || [];
   };
-
   const filterBotAdminGuilds = () => userInfo?.botAdminGuilds || [];
 
   return (

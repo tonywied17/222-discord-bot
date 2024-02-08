@@ -7,6 +7,11 @@ import {
   Typography,
 } from "@material-tailwind/react";
 
+/**
+   * @name GuildManage
+   * This component is used to display the guild management page
+   * It fetches the guild's information and settings and displays it
+   */
 function GuildManage() {
   const { guildId } = useParams();
   const location = useLocation();
@@ -22,7 +27,6 @@ function GuildManage() {
       fetchGuildSettings(); 
     }
   }, [guildId, guildInfo]);
-
   const checkAuthenticationAndFetchGuildInfo = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/checkAuth`, { withCredentials: true })
       .then(authResponse => {
@@ -38,6 +42,10 @@ function GuildManage() {
       });
   };
 
+  /**
+   * Fetch the user's guild information
+   * @returns {void}
+   */
   const fetchGuildInfoBasedOnId = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/info`, { withCredentials: true })
       .then(userInfoResponse => {
@@ -66,6 +74,10 @@ function GuildManage() {
       .catch(error => console.error("Error fetching user info for guilds:", error));
   };
 
+  /**
+   * Fetch the guild's settings
+   * @returns {void}
+   */
   const fetchGuildSettings = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/guilds/${guildId}/settings`, { withCredentials: true })
       .then(response => {
