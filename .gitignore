@@ -40,8 +40,7 @@ build/Release
 
 # Dependency directories
 node_modules/
-dashboard/frontend/node_modules/
-frontend/node_modules/
+/dashboard/frontend/node_modules/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -82,9 +81,7 @@ web_modules/
 .env.local
 
 #db
-database/
-backend/database/
-dashboard/backend/database/
+/dashboard/backend/database/_discord.db
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

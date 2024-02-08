@@ -13,20 +13,23 @@ function GuildManage() {
   const navigate = useNavigate();
   const [guildInfo, setGuildInfo] = useState(location.state || null);
   const [guildSettings, setGuildSettings] = useState(null);
-  const [userHasAdminRights, setUserHasAdminRights] = useState(false);
   const [hasFetchedGuildSettings, setHasFetchedGuildSettings] = useState(false);
 
   useEffect(() => {
-    checkAuthentication();
-  }, []);
+    if (!guildInfo) { 
+      checkAuthenticationAndFetchGuildInfo();
+    } else {
+      fetchGuildSettings(); 
+    }
+  }, [guildId, guildInfo]);
 
-  const checkAuthentication = () => {
+  const checkAuthenticationAndFetchGuildInfo = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/checkAuth`, { withCredentials: true })
       .then(authResponse => {
         if (!authResponse.data.isAuthenticated) {
           navigate('/');
         } else {
-          fetchUserInfo();
+          fetchGuildInfoBasedOnId();
         }
       })
       .catch(error => {
@@ -35,7 +38,7 @@ function GuildManage() {
       });
   };
 
-  const fetchUserInfo = () => {
+  const fetchGuildInfoBasedOnId = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/info`, { withCredentials: true })
       .then(userInfoResponse => {
         const allGuilds = [...userInfoResponse.data.botAdminGuilds, ...userInfoResponse.data.guilds];
@@ -45,9 +48,8 @@ function GuildManage() {
           navigate('/');
           return;
         }
-  
-        const isAdmin = userInfoResponse.data.botAdminGuilds.some(guild => guild.guildId === guildId);
-        if (!isAdmin) {
+
+        if (currentGuild.permissions !== 2147483647) {
           console.error("User does not have admin rights for this guild.");
           navigate('/');
           return;
@@ -57,7 +59,6 @@ function GuildManage() {
           guildName: currentGuild.guildName,
           iconUrl: currentGuild.iconUrl,
         });
-        setUserHasAdminRights(true);
         if (!hasFetchedGuildSettings) {
           fetchGuildSettings();
         }

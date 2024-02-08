@@ -2,6 +2,14 @@
 
 222 Discord Bot is a versatile Discord bot designed to enhance your server's functionality and user experience. From utility commands to music playback, this bot brings a range of features to your community.
 
+### [Slash Commands](COMMANDS.md)
+
+For a detailed list of all available slash commands and their descriptions, please see the [Slash Commands](COMMANDS.md) documentation.
+
+### [Installation Prerequisites](PREREQS.md)
+
+Before installing the 222 Discord Bot, make sure to review the [Installation Prerequisites](PREREQS.md) to ensure your system meets all the necessary requirements.
+
 ## Installation Instructions
 
 To get started with 222 Discord Bot, follow these simple steps:
@@ -15,7 +23,7 @@ To get started with 222 Discord Bot, follow these simple steps:
     cd 222-discord-bot
     ```
 
-2. **Install Dependencies**
+2. **Install Dependencies for the Bot & Backend**
 
     With the project cloned, navigate to the root directory and install the required dependencies using npm.
 
@@ -23,9 +31,22 @@ To get started with 222 Discord Bot, follow these simple steps:
     npm install
     ```
 
-3. **Create Environment Variables**
+3. **Install Dependencies for the Frontend Dashboard**
 
-    Before running the bot, you need to set up the required environment variables. Create a `.env` file in the root directory and include the following:
+    Next, navigate to the `/dashboard/frontend` directory to install the frontend dependencies.
+
+    ```bash
+    cd dashboard/frontend
+    npm install
+    ```
+
+    After the installation is complete, you can return to the root directory by running `cd ../../`.
+
+4. **Create Environment Variables**
+
+    Before running the bot, the dashboard, and the backend, you need to set up the required environment variables. Create a `.env` file in the root directory for the bot's environment variables, another `.env` file inside `/dashboard/frontend` for the frontend's environment variables, and a third `.env` file within `/dashboard/backend` for the backend's environment variables.
+
+    **For the bot, in the root directory:**
 
     ```plaintext
     TOKEN=<Discord Application/Bot Token>
@@ -34,7 +55,29 @@ To get started with 222 Discord Bot, follow these simple steps:
 
     Replace `<Discord Application/Bot Token>` and `<Discord Application Client ID>` with your actual Discord application's bot token and client ID, respectively.
 
-## Running the Bot
+    **For the frontend, in `/dashboard/frontend`:**
+
+    ```plaintext
+    REACT_APP_BACKEND_URL=<Express Backend Endpoint>
+    SESSION_SECRET=<Your Session Secret>
+    ```
+
+    Replace `<Express Backend Endpoint>` with the URL where your backend server will be accessible. The `SESSION_SECRET` can be any string and is used to secure session data.
+
+    **For the backend, in `/dashboard/backend`:**
+
+    ```plaintext
+    CLIENT_ID=<Discord Client ID>
+    CLIENT_SECRET=<Discord Client Secret>
+    CALLBACK_URL=<OAuth2 Callback URL>
+    OAUTH2_URL=<OAuth2 URL>
+    FRONTEND_URL=<React App Deploy URL>
+    SESSION_SECRET=<Your Session Secret>
+    ```
+
+    These variables are critical for the operation of your backend, including integration with Discord OAuth2 for authentication and linking the backend with your frontend. Ensure you replace each placeholder with the appropriate values for your application's setup.
+
+## Running the Bot Only
 
 - **To run the bot in the console:**
 
@@ -48,7 +91,7 @@ To get started with 222 Discord Bot, follow these simple steps:
     node slash-register.js
     ```
 
-### Optional: Running the Bot Continuously with Forever
+### Optional: Deploying the Bot Continuously with Forever
 
 For a more resilient deployment, you can use `forever`, a CLI tool to ensure that your bot runs continuously. This is particularly useful for production environments.
 
@@ -84,37 +127,28 @@ For a more resilient deployment, you can use `forever`, a CLI tool to ensure tha
 
 For more details on using `forever`, refer to its [documentation](https://github.com/foreversd/forever).
 
-## Supported Slash Commands
+### 222 Web Dashboard
+The 222 Discord Bot comes with a web dashboard built using Create React App and styled with TailwindCSS and Tailwind Material while utilizing a REST API backend using Express.js, discord-passport, and sqlite. The dashboard allows for easy management and configuration of the bot's features directly from a web interface.
 
-222 Discord Bot supports a variety of slash commands to improve the user experience on your server. Here's what you can do:
+### Development Commands (Bot, React, Express API)
 
-### Utility Commands
+- **For backend API development (Express, SQLite):**
 
-- `/ping`: Replies with "pong". This is a simple command to test the bot's responsiveness.
+    ```bash
+    npm run start:backend
+    ```
 
-### Music Commands
+- **For frontend development (Create React App, TailwindCSS, Tailwind Material):**
 
-- `/play` - Plays a YouTube video in your voice channel. You need to provide the URL of the YouTube video or a search query as an option.
-  - **Options:** `query` - The YouTube video URL or a search query.
+    ```bash
+    npm run dev:frontend
+    ```
 
-- `/queue` - Displays the current music queue.
+- **To run the bot, frontend and backend in concurrently in development mode:**
 
-- `/skip` - Skips the currently playing song.
-
-- `/stop` - Stops the music and leaves the voice channel.
-
-### Therapy Commands
-
-- `/advice` - Get a random piece of advice.
-
-- `/affirmation` - Get a motivational affirmation.
-
-- `/roastme` - Roast someone with a randomly generated insult.
-
-### Searcher Commands
-
-- `/urban` - Get the definition of a word from Urban Dictionary.
-  - **Options:** `word` - The word to define.
+    ```bash
+    npm run dev
+    ```
 
 ## Contributing
 
@@ -123,6 +157,37 @@ Your contributions are welcome! If you have suggestions for new features or impr
 ## License
 
 This project is licensed under GPL-3.0 license, see the LICENSE file for details.
+
+## Technical Dependencies
+
+The 222 Discord Bot is built using a variety of technologies and dependencies. Below is a list of the main dependencies used in the project:
+
+### Backend Dependencies
+- **@discordjs/voice:** Voice client library for Discord.js.
+- **axios:** Promise based HTTP client for the browser and node.js.
+- **cors:** Node.js package for providing a Connect/Express middleware that can be used to enable CORS.
+- **discord.js:** A powerful JavaScript library for interacting with the Discord API.
+- **dotenv:** Loads environment variables from a `.env` file into `process.env`.
+- **express:** Fast, unopinionated, minimalist web framework for node.
+- **express-session:** Simple session middleware for Express.
+- **ffmpeg-static:** A static build of ffmpeg for Node.js projects.
+- **libsodium-wrappers:** A wrapper for the libsodium cryptographic library.
+- **node-fetch:** A light-weight module that brings `window.fetch` to Node.js.
+- **passport:** Express-compatible authentication middleware for Node.js.
+- **passport-discord:** A Discord strategy for Passport.
+- **path:** Utilities for working with file and directory paths.
+- **prism-media:** A media transcoding utility used by discord.js for voice.
+- **sqlite3:** Asynchronous, non-blocking SQLite3 bindings for Node.js.
+- **youtube-sr:** A simple YouTube search and information library.
+- **ytdl-core:** A library that downloads videos from YouTube as a stream.
+
+### Frontend Dependencies
+- **react:** A JavaScript library for building user interfaces.
+- **react-icons:** Includes popular icons in your React projects easily.
+- **@material-tailwind/react:** Material Tailwind components for React.
+- **tailwindcss:** A utility-first CSS framework for rapid UI development.
+
+This comprehensive set of technologies and libraries ensures the bot's functionality across various features, including interaction with the Discord API, handling web requests, and streaming media content.
 
 ## Acknowledgements
 

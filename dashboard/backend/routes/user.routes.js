@@ -1,7 +1,24 @@
+/*
+ * File: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot\dashboard\backend\routes\user.routes.js
+ * Project: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot
+ * Created Date: Monday February 5th 2024
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Thu February 8th 2024 4:02:05 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2024 MolexWorks / Tone Web Design
+ */
+
 const express = require('express');
 const router = express.Router();
 const db = require('../config/sqlite.db');
 
+/**
+ * @name ensureAuthenticated
+ * @description
+ * This function checks if the user is authenticated.
+ */
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -10,6 +27,14 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
+/**
+ * @name /user/info
+ * @method GET
+ * @description
+ * This route is used to get the user information.
+ * It returns the user's Discord ID, username, email, avatar, and guilds.
+ * @returns {Object} - The user object
+ */
 router.get('/user/info', ensureAuthenticated, async (req, res) => {
     if (!req.user) {
         return res.status(404).json({ message: "User not found" });
@@ -76,9 +101,5 @@ router.get('/user/info', ensureAuthenticated, async (req, res) => {
         return res.status(500).json({ message: "Error processing guilds" });
     }
 });
-
-
-
-
 
 module.exports = router;

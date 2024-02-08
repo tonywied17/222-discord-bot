@@ -1,7 +1,19 @@
+/*
+ * File: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot\dashboard\backend\config\sqlite.db.js
+ * Project: c:\Users\tonyw\Desktop\git-222-bot\222-discord-bot
+ * Created Date: Monday February 5th 2024
+ * Author: Tony Wiedman
+ * -----
+ * Last Modified: Thu February 8th 2024 3:57:13 
+ * Modified By: Tony Wiedman
+ * -----
+ * Copyright (c) 2024 MolexWorks / Tone Web Design
+ */
+
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 const dbPath = path.join(__dirname, '../database/_discord.db');
-console.log(dbPath);
+
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Error opening database:', err.message);
@@ -10,6 +22,11 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
+/**
+ * @name initDb
+ * @description
+ * This function initializes the database and creates the tables if they don't exist.
+ */
 const initDb = () => {
   db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS user (
