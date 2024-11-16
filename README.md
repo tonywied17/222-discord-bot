@@ -127,7 +127,7 @@ For a more resilient deployment, you can use `forever`, a CLI tool to ensure tha
 
 For more details on using `forever`, refer to its [documentation](https://github.com/foreversd/forever).
 
-### 222 Web Dashboard
+## 222 Web Dashboard
 The 222 Discord Bot comes with a web dashboard built using Create React App and styled with TailwindCSS and Tailwind Material while utilizing a REST API backend using Express.js, discord-passport, and sqlite. The dashboard allows for easy management and configuration of the bot's features directly from a web interface.
 
 ### Development Commands (Bot, React, Express API)
@@ -149,6 +149,28 @@ The 222 Discord Bot comes with a web dashboard built using Create React App and 
     ```bash
     npm run dev
     ```
+
+## React Dashboard Screenshots
+
+### Home Dashboard
+![Home Dashboard](https://raw.githubusercontent.com/tonywied17/222-discord-bot/refs/heads/main/assets/home_dash.png)
+
+### User Dashboard
+![User Dashboard](https://github.com/tonywied17/222-discord-bot/blob/main/assets/user_dash.png)
+
+### Guild Settings
+![Guild Settings](https://raw.githubusercontent.com/tonywied17/222-discord-bot/refs/heads/main/assets/guild_settings.png)
+
+
+## Discord Bot Screenshots
+
+### Slash Commands
+![Slash Command 1](https://raw.githubusercontent.com/tonywied17/222-discord-bot/refs/heads/main/assets/slash_1.png)
+![Slash Command 2](https://raw.githubusercontent.com/tonywied17/222-discord-bot/refs/heads/main/assets/slash_2.png)
+
+### Sample Outputs
+![Sample Outputs](https://github.com/tonywied17/222-discord-bot/blob/main/assets/sample_outputs.png)
+
 
 ## Contributing
 
