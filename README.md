@@ -1,5 +1,14 @@
 # 222 Discord Bot
 
+![GitHub repo size](https://img.shields.io/github/repo-size/tonywied17/222-discord-bot?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/top/tonywied17/222-discord-bot?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/tonywied17/bin-scripts?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/tonywied17/222-discord-bot?style=for-the-badge)
+<br />
+![GitHub watchers](https://img.shields.io/github/watchers/tonywied17/222-discord-bot?style=flat-square)
+![GitHub stars](https://img.shields.io/github/stars/tonywied17/222-discord-bot?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/tonywied17/bin-scripts?style=flat-square)
+
 222 Discord Bot is a versatile Discord bot designed to enhance your server's functionality and user experience. From utility commands to music playback, this bot brings a range of features to your community.
 
 ### [Slash Commands](COMMANDS.md)
